@@ -12678,16 +12678,28 @@ return jQuery;
 }));
 
 },{}],6:[function(require,module,exports){
+arguments[4][4][0].apply(exports,arguments)
+},{"dup":4}],7:[function(require,module,exports){
 module.exports=[ {"id": 1, "name": "Fletch"},
   {"id": 2, "name": "Dr.Rosen"},
   {"id": 3, "name": "Mr.Poon"}
 ]
 
 },{}],"app":[function(require,module,exports){
+var _ = require('underscore');
 var Backbone = require('backbone');
 var People = require('collections/people');
+//var Monitor = require('./monitor.js');
 var data = require('../people.json');
 var people = new People(data);
+
+_.extend(this, Backbone.Events);
+
+this.listenTo(people, 'all', function(name) {
+  console.log('Event: ', name, ' was triggered');
+});
+//var monitor = new Monitor(people);
+
 module.exports = people;
 
-},{"../people.json":6,"backbone":3,"collections/people":1}]},{},[]);
+},{"../people.json":7,"backbone":3,"collections/people":1,"underscore":6}]},{},[]);
