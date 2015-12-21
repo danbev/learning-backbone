@@ -19,12 +19,5 @@ Open the Web Brower console and try out the module:
 >  var app = require('app');
 >  var view = new app.PersonView({model: app.people.get(1)});
 >  document.body.appendChild(view.render().el);
-
->  view.model.set('selected', false);
-<- bundle.js:22511 Event:  change:selected  was triggered
-<- bundle.js:22511 Event:  change  was triggered
-> view.render();
-<- bundle.js:22511 Event:  change:selected  was triggered
-<- bundle.js:22511 Event:  change  was triggered
-> view.render();
+>  app.people.get(1).set('name', 'Fletch2');
 ```
