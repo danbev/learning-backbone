@@ -1,4 +1,23 @@
 require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var Backbone = require('backbone');
+var Person = require('models/person.js');
+var People = Backbone.Collection.extend({
+  person: Person
+});
+module.exports = People;
+
+
+},{"backbone":3,"models/person.js":2}],2:[function(require,module,exports){
+var Backbone = require('backbone');
+var Person = Backbone.Model.extend({
+  defaults: {
+    name: "John Doe",
+    age: 100
+  }
+});
+module.exports = Person;
+
+},{"backbone":3}],3:[function(require,module,exports){
 (function (global){
 //     Backbone.js 1.2.3
 
@@ -1896,7 +1915,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
 }));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":3,"underscore":2}],2:[function(require,module,exports){
+},{"jquery":5,"underscore":4}],4:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -3446,7 +3465,7 @@ require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof requ
   }
 }.call(this));
 
-},{}],3:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -12658,23 +12677,17 @@ return jQuery;
 
 }));
 
-},{}],"people":[function(require,module,exports){
+},{}],6:[function(require,module,exports){
+module.exports=[ {"id": 1, "name": "Fletch"},
+  {"id": 2, "name": "Dr.Rosen"},
+  {"id": 3, "name": "Mr.Poon"}
+]
+
+},{}],"app":[function(require,module,exports){
 var Backbone = require('backbone');
-var Person = require('models/person.js');
-var People = Backbone.Collection.extend({
-  person: Person
-});
-module.exports = People;
+var People = require('collections/people');
+var data = require('../people.json');
+var people = new People(data);
+module.exports = people;
 
-
-},{"backbone":1,"models/person.js":"person"}],"person":[function(require,module,exports){
-var Backbone = require('backbone');
-var Person = Backbone.Model.extend({
-  defaults: {
-    name: "John Doe",
-    age: 100
-  }
-});
-module.exports = Person;
-
-},{"backbone":1}]},{},[]);
+},{"../people.json":6,"backbone":3,"collections/people":1}]},{},[]);
