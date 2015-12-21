@@ -16,8 +16,7 @@ Open the Web Brower console and try out the module:
 
 ```shell
 
->  var app = require('app');
->  var view = new app.PersonView({model: app.people.get(1)});
->  document.body.appendChild(view.render().el);
->  app.people.get(1).set('name', 'Fletch2');
+> var app = require('app');
+> document.body.appendChild(peopleView.render().el);
 ```
+You can now click on the individual people and see the event in the console. 
