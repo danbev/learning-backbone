@@ -12,6 +12,7 @@ var PersonView = Backbone.View.extend( {
   render: function() {
     var compiled = _.template(this.template);
     this.$el.html(compiled(this.model.toJSON()));
+    console.log(this.model.get('name'), ' selected=', this.model.get('selected'));
     this.$el.toggleClass('selected', this.model.get('selected'));
     return this;
   },
@@ -20,7 +21,9 @@ var PersonView = Backbone.View.extend( {
   }, 
   _selectPerson: function(event) {
     event.preventDefault();
-    console.log($(event.currentTarget).html());
+    var name = $(event.currentTarget).text();
+    console.log(name);
+    this.$el.toggleClass('selected', true);
   }
 });
 

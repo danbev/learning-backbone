@@ -1,4 +1,4 @@
-[ {"id": 1, "name": "Fletch"},
-  {"id": 2, "name": "Dr.Rosen"},
-  {"id": 3, "name": "Mr.Poon"}
+[ {"id": 1, "name": "Fletch", "selected": false},
+  {"id": 2, "name": "Dr.Rosen", "selected": false},
+  {"id": 3, "name": "Mr.Poon", "selected": false}
 ]

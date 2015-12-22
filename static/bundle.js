@@ -1,4 +1,4 @@
-require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var Backbone = require('backbone');
 var Person = require('models/person.js');
 var People = Backbone.Collection.extend({
@@ -12,7 +12,22 @@ var People = Backbone.Collection.extend({
 module.exports = People;
 
 
-},{"backbone":3,"models/person.js":2}],2:[function(require,module,exports){
+},{"backbone":4,"models/person.js":3}],2:[function(require,module,exports){
+var Backbone = require('backbone');
+var $ = require('jquery-untouched');
+var PeopleRouter = require('routes/people');
+Backbone.$ = $;
+
+$(document).ready(function() {
+  console.log("App ready.");
+  var router = new PeopleRouter(null, {el: $('#people')});
+  Backbone.history.start({
+    pushState: false,
+    root: '/'
+  });
+});
+
+},{"backbone":4,"jquery-untouched":11,"routes/people":8}],3:[function(require,module,exports){
 var Backbone = require('backbone');
 var Person = Backbone.Model.extend({
   defaults: {
@@ -23,7 +38,7 @@ var Person = Backbone.Model.extend({
 });
 module.exports = Person;
 
-},{"backbone":3}],3:[function(require,module,exports){
+},{"backbone":4}],4:[function(require,module,exports){
 (function (global){
 //     Backbone.js 1.2.3
 
@@ -1921,7 +1936,7 @@ module.exports = Person;
 }));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":5,"underscore":4}],4:[function(require,module,exports){
+},{"jquery":6,"underscore":5}],5:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
@@ -3471,7 +3486,7 @@ module.exports = Person;
   }
 }.call(this));
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -12683,9 +12698,43 @@ return jQuery;
 
 }));
 
-},{}],6:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],7:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],8:[function(require,module,exports){
+var Backbone = require('backbone');
+var People = require('collections/people');
+var data = require('../../people.json');
+var people = new People(data);
+
+var PeopleView = require('views/peopleView');
+
+var PeopleRouter = Backbone.Router.extend({
+  initialize: function(attributes, options) {
+    this.people = people;
+    this.peopleView =  new PeopleView({
+      el: options.el,
+      collection: people
+    });
+  },
+  routes: {
+    'person/:name': 'person', 
+    '': 'people'
+  },
+  people: function() {
+    console.log("render people....");
+    this.peopleView.render();
+  },
+  person: function(name) {
+    var p = this.people.where({name: name})[0];
+    console.log("selected : ", p.get('name'));
+    p.set('selected', true);
+    this.peopleView.render();
+  }
+});
+
+module.exports = PeopleRouter;
+
+},{"../../people.json":12,"backbone":4,"collections/people":1,"views/peopleView":9}],9:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var PersonView = require('views/person');
@@ -12701,7 +12750,7 @@ var PeopleView = Backbone.View.extend({
 });
 module.exports = PeopleView;
 
-},{"backbone":3,"views/person":8}],8:[function(require,module,exports){
+},{"backbone":4,"views/person":10}],10:[function(require,module,exports){
 var $ = require('jquery-untouched');
 var Backbone = require('backbone');
 var _ = require('underscore');
@@ -12716,6 +12765,7 @@ var PersonView = Backbone.View.extend( {
   render: function() {
     var compiled = _.template(this.template);
     this.$el.html(compiled(this.model.toJSON()));
+    console.log(this.model.get('name'), ' selected=', this.model.get('selected'));
     this.$el.toggleClass('selected', this.model.get('selected'));
     return this;
   },
@@ -12724,13 +12774,15 @@ var PersonView = Backbone.View.extend( {
   }, 
   _selectPerson: function(event) {
     event.preventDefault();
-    console.log($(event.currentTarget).html());
+    var name = $(event.currentTarget).text();
+    console.log(name);
+    this.$el.toggleClass('selected', true);
   }
 });
 
 module.exports = PersonView;
 
-},{"backbone":3,"jquery-untouched":9,"underscore":6}],9:[function(require,module,exports){
+},{"backbone":4,"jquery-untouched":11,"underscore":7}],11:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v1.10.2
  * http://jquery.com/
@@ -22521,31 +22573,10 @@ if ( typeof module === "object" && module && typeof module.exports === "object" 
 
 })( window );
 
-},{}],10:[function(require,module,exports){
-module.exports=[ {"id": 1, "name": "Fletch"},
-  {"id": 2, "name": "Dr.Rosen"},
-  {"id": 3, "name": "Mr.Poon"}
+},{}],12:[function(require,module,exports){
+module.exports=[ {"id": 1, "name": "Fletch", "selected": false},
+  {"id": 2, "name": "Dr.Rosen", "selected": false},
+  {"id": 3, "name": "Mr.Poon", "selected": false}
 ]
 
-},{}],"app":[function(require,module,exports){
-var _ = require('underscore');
-var Backbone = require('backbone');
-var $ = require('jquery-untouched');
-Backbone.$ = $;
-var PersonView = require('views/person');
-var PeopleView = require('views/peopleView');
-var People = require('collections/people');
-var data = require('../people.json');
-var people = new People(data);
-
-_.extend(this, Backbone.Events);
-this.listenTo(people, 'all', function(name) {
-  console.log('Event: ', name, ' was triggered');
-});
-
-module.exports = { people: people, 
-  PersonView: PersonView, 
-  PeopleView: PeopleView 
-};
-
-},{"../people.json":10,"backbone":3,"collections/people":1,"jquery-untouched":9,"underscore":6,"views/peopleView":7,"views/person":8}]},{},[]);
+},{}]},{},[2]);

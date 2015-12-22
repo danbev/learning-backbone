@@ -1,19 +1,13 @@
-var _ = require('underscore');
 var Backbone = require('backbone');
 var $ = require('jquery-untouched');
+var PeopleRouter = require('routes/people');
 Backbone.$ = $;
-var PersonView = require('views/person');
-var PeopleView = require('views/peopleView');
-var People = require('collections/people');
-var data = require('../people.json');
-var people = new People(data);
 
-_.extend(this, Backbone.Events);
-this.listenTo(people, 'all', function(name) {
-  console.log('Event: ', name, ' was triggered');
+$(document).ready(function() {
+  console.log("App ready.");
+  var router = new PeopleRouter(null, {el: $('#people')});
+  Backbone.history.start({
+    pushState: false,
+    root: '/'
+  });
 });
-
-module.exports = { people: people, 
-  PersonView: PersonView, 
-  PeopleView: PeopleView 
-};
