@@ -9,6 +9,7 @@ var People = Backbone.Collection.extend({
     });
   }
 });
+
 module.exports = People;
 
 
@@ -29,13 +30,19 @@ $(document).ready(function() {
 
 },{"backbone":4,"jquery-untouched":11,"routes/people":8}],3:[function(require,module,exports){
 var Backbone = require('backbone');
+// any properties or methods on the object passed to extend will be added
+// to the new class's prototype
 var Person = Backbone.Model.extend({
   defaults: {
     name: "John Doe",
     age: 100,
     selected: false
   }
+}, { info: function() { // static properties/methods for the class rather than an instance
+    console.log("Person contains basic information about a person");
+   }
 });
+
 module.exports = Person;
 
 },{"backbone":4}],4:[function(require,module,exports){
@@ -12704,6 +12711,7 @@ arguments[4][5][0].apply(exports,arguments)
 var Backbone = require('backbone');
 var People = require('collections/people');
 var data = require('../../people.json');
+var Person = require('models/person.js');
 var people = new People(data);
 
 var PeopleView = require('views/peopleView');
@@ -12721,6 +12729,7 @@ var PeopleRouter = Backbone.Router.extend({
     '': 'people'
   },
   people: function() {
+    Person.info();
     console.log("render people....");
     this.peopleView.render();
   },
@@ -12734,7 +12743,7 @@ var PeopleRouter = Backbone.Router.extend({
 
 module.exports = PeopleRouter;
 
-},{"../../people.json":12,"backbone":4,"collections/people":1,"views/peopleView":9}],9:[function(require,module,exports){
+},{"../../people.json":12,"backbone":4,"collections/people":1,"models/person.js":3,"views/peopleView":9}],9:[function(require,module,exports){
 var Backbone = require('backbone');
 
 var PersonView = require('views/person');

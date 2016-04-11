@@ -8,5 +8,6 @@ var People = Backbone.Collection.extend({
     });
   }
 });
+
 module.exports = People;
 

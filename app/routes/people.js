@@ -1,6 +1,7 @@
 var Backbone = require('backbone');
 var People = require('collections/people');
 var data = require('../../people.json');
+var Person = require('models/person.js');
 var people = new People(data);
 
 var PeopleView = require('views/peopleView');
@@ -18,6 +19,8 @@ var PeopleRouter = Backbone.Router.extend({
     '': 'people'
   },
   people: function() {
+    // just an example of calling a static method on a model.
+    Person.info();
     console.log("render people....");
     this.peopleView.render();
   },
