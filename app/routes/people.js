@@ -2,12 +2,15 @@ var Backbone = require('backbone');
 var People = require('collections/people');
 var data = require('../../people.json');
 var Person = require('models/person.js');
-var people = new People(data);
+// we are creating a new collection of persons using an array of
+// person objects from the people.json file.
+var people = new People(data, {bogusOption: "bogus"});
 
 var PeopleView = require('views/peopleView');
 
 var PeopleRouter = Backbone.Router.extend({
   initialize: function(attributes, options) {
+    console.log("PeopleRouter init:", attributes, options);
     this.people = people;
     this.peopleView =  new PeopleView({
       el: options.el,
@@ -21,7 +24,7 @@ var PeopleRouter = Backbone.Router.extend({
   people: function() {
     // just an example of calling a static method on a model.
     Person.info();
-    console.log("render people....");
+    console.log("render " + people.length + " people");
     this.peopleView.render();
   },
   person: function(name) {
